@@ -18,6 +18,7 @@ from rooms import create_room, verify_pin, get_room
 from auth import verify_admin
 import redis
 from datetime import datetime
+import os  # ← AÑADE ESTO AL INICIO
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecreto2025'
@@ -150,5 +151,5 @@ def get_users_in_room(room_id):
     return [s['nickname'] for s in active_sessions.values() if s['room_id'] == room_id]
 
 if __name__ == '__main__':
-    print("Servidor en http://localhost:5000")
-    socketio.run(app, host='0.0.0.0', port=5000, debug=False)
+    port = int(os.environ.get('PORT', 5000))
+    socketio.run(app, host='0.0.0.0', port=port, debug=False)
