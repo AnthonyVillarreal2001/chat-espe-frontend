@@ -1,6 +1,13 @@
+// src/socket.ts
 import { io, Socket } from 'socket.io-client';
 
-const socket: Socket = io('http://localhost:5000', {
+// CAMBIA ESTO: URL DE TU BACKEND EN RAILWAY
+const BACKEND_URL = 
+  import.meta.env.MODE === 'production'
+    ? 'https://chat-espe-backend-production.up.railway.app'  // TU URL
+    : 'http://localhost:5000';
+
+const socket: Socket = io(BACKEND_URL, {
   transports: ['websocket'],
   autoConnect: false,
 });

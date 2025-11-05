@@ -19,10 +19,13 @@ const CreateRoom: React.FC<Props> = ({ onRoomCreated }) => {
     setLoading(true);
     
     try {
-      const res = await axios.post('/api/admin/rooms', form, {
-        withCredentials: true,
-        timeout: 5000
-      });
+      const res = await axios.post(
+        import.meta.env.MODE === 'production'
+          ? 'https://chat-espe-backend-production.up.railway.app/api/admin/rooms'
+          : '/api/admin/rooms',
+        form,
+        { timeout: 5000 }
+      );
       onRoomCreated(res.data.room_id);
       setForm({ name: '', pin: '', type: 'text' });
     } catch {

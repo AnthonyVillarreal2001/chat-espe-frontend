@@ -16,9 +16,13 @@ const AdminLogin: React.FC<Props> = ({ onLogin }) => {
     setError('');
     
     try {
-      const res = await axios.post('/api/admin/login', form, {
-        timeout: 5000
-      });
+      const res = await axios.post(
+        import.meta.env.MODE === 'production'
+          ? 'https://chat-espe-backend-production.up.railway.app/api/admin/login'
+          : '/api/admin/login',
+        form,
+        { timeout: 5000 }
+      );
       if (res.data.success) {
         onLogin();
       }
