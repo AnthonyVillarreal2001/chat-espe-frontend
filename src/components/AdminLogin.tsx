@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 interface Props {
   onLogin: () => void;
@@ -10,29 +10,32 @@ const AdminLogin: React.FC<Props> = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const API_BASE = import.meta.env.MODE === 'production'
+    ? 'https://chat-espe-backend-production.up.railway.app'
+    : '';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+
     try {
-      const res = await axios.post(
-        import.meta.env.MODE === 'production'
-          ? 'https://chat-espe-backend-production.up.railway.app/api/admin/login'
-          : '/api/admin/login',
-        form,
-        { timeout: 5000 }
-      );
+      const res = await axios.post(`${API_BASE}/api/admin/login`, form, {
+        withCredentials: true,
+        timeout: 5000
+      });
       if (res.data.success) {
         onLogin();
       }
-    } catch {
-      setError('Credenciales incorrectas');
+    } catch (err: unknown) {  // ← unknown, NO any
+      const error = err as AxiosError<{ error?: string }>;
+      setError(error.response?.data?.error || 'Error de conexión');
+      console.error('Login error:', error);
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="card" style={{ maxWidth: '400px', flex: 1 }}>
       <h2 style={{ marginBottom: '20px', color: '#667eea', textAlign: 'center' }}>
@@ -55,7 +58,7 @@ const AdminLogin: React.FC<Props> = ({ onLogin }) => {
           required
           disabled={loading}
         />
-        {error && <div className="error">{error}</div>}
+        {error && <div style={{ color: 'red', margin: '10px 0' }}>{error}</div>}
         <button type="submit" disabled={loading}>
           {loading ? 'Ingresando...' : 'Ingresar'}
         </button>

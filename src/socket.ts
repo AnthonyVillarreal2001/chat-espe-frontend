@@ -1,10 +1,9 @@
 // src/socket.ts
 import { io, Socket } from 'socket.io-client';
 
-// CAMBIA ESTO: URL DE TU BACKEND EN RAILWAY
 const BACKEND_URL = 
   import.meta.env.MODE === 'production'
-    ? 'https://chat-espe-backend-production.up.railway.app'  // TU URL
+    ? 'https://chat-espe-backend-production.up.railway.app'
     : 'http://localhost:5000';
 
 const socket: Socket = io(BACKEND_URL, {

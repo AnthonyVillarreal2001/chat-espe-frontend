@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import type { RoomForm } from '../types';  // ← CORREGIDO: import type
 
 interface Props {
@@ -19,17 +19,20 @@ const CreateRoom: React.FC<Props> = ({ onRoomCreated }) => {
     setLoading(true);
     
     try {
-      const res = await axios.post(
-        import.meta.env.MODE === 'production'
-          ? 'https://chat-espe-backend-production.up.railway.app/api/admin/rooms'
-          : '/api/admin/rooms',
-        form,
-        { timeout: 5000 }
-      );
+      const API_BASE = import.meta.env.MODE === 'production'
+        ? 'https://chat-espe-backend-production.up.railway.app'
+        : '';
+
+      const res = await axios.post(`${API_BASE}/api/admin/rooms`, form, {
+        withCredentials: true,
+        timeout: 5000
+      });
       onRoomCreated(res.data.room_id);
       setForm({ name: '', pin: '', type: 'text' });
-    } catch {
+    } catch (err: unknown) {
+      const error = err as AxiosError;
       alert('Error al crear sala');
+      console.error(error);
     } finally {
       setLoading(false);
     }
