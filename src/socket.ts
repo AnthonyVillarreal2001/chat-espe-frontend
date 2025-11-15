@@ -1,14 +1,13 @@
-// src/socket.ts
 import { io, Socket } from 'socket.io-client';
 
-const BACKEND_URL = 
-  import.meta.env.MODE === 'production'
-    ? 'https://chat-espe-backend-production.up.railway.app'
-    : 'http://localhost:5000';
-
-const socket: Socket = io(BACKEND_URL, {
-  transports: ['websocket'],
+const socket: Socket = io('http://localhost:5000', {
+  transports: ['websocket'],        // ← FORZAR WEBSOCKET
   autoConnect: false,
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
+  // NGROK: Cambiar dinámicamente la URL
+  // (lo haremos en ChatRoom)
 });
 
 export default socket;
