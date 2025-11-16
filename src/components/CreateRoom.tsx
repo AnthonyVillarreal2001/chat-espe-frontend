@@ -19,9 +19,7 @@ const CreateRoom: React.FC<Props> = ({ onRoomCreated }) => {
     setLoading(true);
     
     try {
-      const API_BASE = import.meta.env.MODE === 'production'
-        ? 'https://chat-espe-backend-production.up.railway.app'
-        : '';
+      const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
       const res = await axios.post(`${API_BASE}/api/admin/rooms`, form, {
         withCredentials: true,

@@ -10,9 +10,7 @@ const AdminLogin: React.FC<Props> = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = import.meta.env.MODE === 'production'
-    ? 'https://chat-espe-backend-production.up.railway.app'
-    : '';
+  const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,26 +1,38 @@
+# Variables de entorno (NUNCA SUBIR)
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# Build de Vite
+dist/
+build/
+
+# Node modules
+node_modules/
+
 # Logs
-logs
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# OS
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
 
-.vercel
+# Railway (si usas localmente)
+.railway/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Vite cache
+.vite/
